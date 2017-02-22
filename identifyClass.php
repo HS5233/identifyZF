@@ -12,18 +12,19 @@ class identifyClass{
 	
 	//根据规格切割验证码，生成单字符图片
 	public function creatWords(){
+		$dir = 'words_tmp';
 		//获取次数
 		$times = 5;
 		//标识，用于区分，避免覆盖
 		$tag = 'x';
 		//没有目录则创建
-		if(!is_dir('words_tmp')){
-			mkdir('words_tmp');
+		if(!is_dir($dir)){
+			mkdir($dir);
 		}
 		while($times--){
 			$res = imagecreatefromgif($this->CheckCodeUrl);     //创建图像
 			for($i=0;$i<4;$i++){
-				$tmpNum = 'words_tmp/'.$tag.$times.$i.'.gif';
+				$tmpNum = $dir.'/'.$tag.$times.$i.'.gif';
 				$tmp = imagecreatetruecolor(12,21);
 				ImageCopyResized($tmp,$res,0,0,5+$i*12,1,12,21,12,21);
 				imagegif($tmp,$tmpNum);
@@ -141,6 +142,7 @@ class identifyClass{
 						}
 						if(in_array($wordGet,$wordsArr)){
 							$filesStr .= $file.'|';
+							unlink($dir.'/'.$file);
 						}else{
 							$wordsArr[] = $wordGet;
 							echo $wordGet.'<br/>';
