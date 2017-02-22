@@ -8,7 +8,11 @@ set_time_limit(0);
 
 class identifyClass{
 	//验证码地址
-	public $CheckCodeUrl = 'http://jwc.xhu.edu.cn/CheckCode.aspx';
+	public $CheckCodeUrl;
+	
+	public function __construct($CheckCodeUrl){
+		$this->CheckCodeUrl = $CheckCodeUrl;
+	}
 	
 	//根据规格切割验证码，生成单字符图片
 	public function creatWords(){
@@ -428,7 +432,6 @@ class identifyClass{
 			}
 			if($state==false) break;
 		}
-		unset($thread);
 		return $thread[0]->str.$thread[1]->str.$thread[2]->str.$thread[3]->str;
 	}
 }
